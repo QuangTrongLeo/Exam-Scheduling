@@ -40,7 +40,7 @@ public class TimeSlot {
 
     @Override
     public String toString() {
-        return "TimeSlot [id=" + id + ", week=" + week + ", day=" + day + ", slot=" + slot + "]";
+        return "TimeSlot: id = " + id + "\t week = " + week + "\t day = " + day + "\t slot = " + slot;
     }
 
 }

@@ -68,4 +68,21 @@ public class DataInitializer {
         }
         return slots;
     }
+    
+    public static void main(String[] args) {
+		List<Subject> subjects = initSubjects();
+		List<TimeSlot> timeSlots = initTimeSlots();
+		
+		System.out.println("========== SUBJECTS ==========");
+		for (Subject subject : subjects) {
+			System.out.println(subject.toString());
+		}
+		
+		System.out.println();
+		
+		System.out.println("========== TIMESLOTS ==========");
+		for (TimeSlot timeSlot : timeSlots) {
+			System.out.println(timeSlot.toString());
+		}
+	}
 }

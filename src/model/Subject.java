@@ -58,10 +58,8 @@ public class Subject {
 
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", name=" + name + ", credits=" + credits + ", compulsory=" + compulsory
-				+ ", year=" + year + "]";
+		return "Subject: id = " + id + "\t name = " + name + "\t\t\t credits = " + credits + "\t compulsory = " + compulsory
+				+ "\t year = " + year;
 	}
-	
-	
-    
+
 }
