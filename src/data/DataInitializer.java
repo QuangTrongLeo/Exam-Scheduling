@@ -5,46 +5,6 @@ import java.util.*;
 
 public class DataInitializer {
 
-    // KHỞI TẠO DANH SÁCH TÒA NHÀ
-    public static List<Building> initBuildings() {
-        List<Building> buildings = new ArrayList<>();
-        buildings.add(new Building(1, "HD")); // Hướng Dương
-        buildings.add(new Building(2, "TV")); // Tường Vi
-        buildings.add(new Building(3, "CT")); // Các Tường
-        buildings.add(new Building(4, "RD")); // Rạng Đông
-        return buildings;
-    }
-
-    // KHỞI TẠO DANH SÁCH PHÒNG
-    public static List<Room> initRooms(List<Building> buildings) {
-        List<Room> rooms = new ArrayList<>();
-        int roomId = 1;
-
-        for (int i = 0; i < 3; i++) {
-            Building b = buildings.get(i); // HD, TV, CT
-            for (int num = 101; num <= 103; num++) {
-                rooms.add(new Room(roomId++, b, num));
-            }
-            for (int num = 201; num <= 203; num++) {
-                rooms.add(new Room(roomId++, b, num));
-            }
-            for (int num = 301; num <= 303; num++) {
-                rooms.add(new Room(roomId++, b, num));
-            }
-        }
-
-        // Rạng Đông: 101->106, 201->206, ..., 501->506
-        Building rd = buildings.get(3);
-        for (int floor = 1; floor <= 5; floor++) {
-            for (int num = 1; num <= 6; num++) {
-                int roomNumber = floor * 100 + num;
-                rooms.add(new Room(roomId++, rd, roomNumber));
-            }
-        }
-
-        return rooms;
-    }
-
     // KHỞI TẠO DANH SÁCH MÔN HỌC
     public static List<Subject> initSubjects() {
         List<Subject> subjects = new ArrayList<>();
