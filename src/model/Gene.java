@@ -1,41 +1,39 @@
 package model;
 
-//import java.util.List;
-
 public class Gene {
 	private Subject subject;
-    private TimeSlot timeslot;
-//    private List<Room> rooms;
+    private TimeSlot theoryTimeSlot;
+    private TimeSlot practiceTimeSlot;
     
-	public Gene(Subject subject, TimeSlot timeslot) {
+	public Gene(Subject subject, TimeSlot theoryTimeSlot, TimeSlot practiceTimeSlot) {
 		super();
 		this.subject = subject;
-		this.timeslot = timeslot;
-//		this.rooms = rooms;
+		this.theoryTimeSlot = theoryTimeSlot;
+		this.practiceTimeSlot = practiceTimeSlot;
 	}
-	
+
 	public Subject getSubject() {
 		return subject;
 	}
+
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
-	public TimeSlot getTimeslot() {
-		return timeslot;
+
+	public TimeSlot getTheoryTimeSlot() {
+		return theoryTimeSlot;
 	}
-	public void setTimeslot(TimeSlot timeslot) {
-		this.timeslot = timeslot;
+
+	public void setTheoryTimeSlot(TimeSlot theoryTimeSlot) {
+		this.theoryTimeSlot = theoryTimeSlot;
 	}
-//	public List<Room> getRooms() {
-//		return rooms;
-//	}
-//	public void setRooms(List<Room> rooms) {
-//		this.rooms = rooms;
-//	}
-//	
-//	@Override
-//	public String toString() {
-//		return "ExamSchedule [subject=" + subject + ", timeslot=" + timeslot + ", rooms=" + rooms + "]";
-//	} 
-   
+
+	public TimeSlot getPracticeTimeSlot() {
+		return practiceTimeSlot;
+	}
+
+	public void setPracticeTimeSlot(TimeSlot practiceTimeSlot) {
+		this.practiceTimeSlot = practiceTimeSlot;
+	}
+
 }
