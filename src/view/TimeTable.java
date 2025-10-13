@@ -4,7 +4,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 import model.*;
 
 public class TimeTable extends JPanel {
