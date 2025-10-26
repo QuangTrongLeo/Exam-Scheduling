@@ -9,12 +9,12 @@ public class DataInitializer {
     public static List<Subject> initSubjects() {
         List<Subject> subjects = new ArrayList<>();
 
-        subjects.add(new Subject(214463, "Nhập môn trí tuệ nhân tạo", 4, true));
-        subjects.add(new Subject(214293, "Thực tập lập trình trên thiết bị di động", 3, false));
-        subjects.add(new Subject(214379, "Đảm bảo chất lượng và kiểm thử phần mềm", 3, false));
-        subjects.add(new Subject(214388, "Lập trình Front End", 4, false));
-        subjects.add(new Subject(214485, "Data Mining", 4, false));
-        subjects.add(new Subject(214491, "Data Warehouse", 3, false));
+//        subjects.add(new Subject(214463, "Nhập môn trí tuệ nhân tạo", 4, true));
+//        subjects.add(new Subject(214293, "Thực tập lập trình trên thiết bị di động", 3, false));
+//        subjects.add(new Subject(214379, "Đảm bảo chất lượng và kiểm thử phần mềm", 3, false));
+//        subjects.add(new Subject(214388, "Lập trình Front End", 4, false));
+//        subjects.add(new Subject(214485, "Data Mining", 4, false));
+//        subjects.add(new Subject(214491, "Data Warehouse", 3, false));
 
         return subjects;
     }

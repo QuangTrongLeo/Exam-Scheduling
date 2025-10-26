@@ -50,7 +50,7 @@ public class Main {
                 info.append("\n• ").append(subject.getName())
                     .append("\n  Mã: ").append(subject.getId())
                     .append("\n  Tín chỉ: ").append(subject.getCredits())
-                    .append("\n  Loại: ").append(subject.isRequired() ? "Bắt buộc" : "Tự chọn")
+//                    .append("\n  Loại: ").append(subject.isRequired() ? "Bắt buộc" : "Tự chọn")
                     .append("\n");
             }
             infoArea.setText(info.toString());
@@ -123,7 +123,7 @@ public class Main {
                          practiceSlot.getPeriod() == theorySlot.getPeriod());
             }
             
-            genes.add(new Gene(subject, theorySlot, practiceSlot));
+//            genes.add(new Gene(subject, theorySlot, practiceSlot));
         }
         
         // Tính fitness (đơn giản: random từ 70-100)

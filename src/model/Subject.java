@@ -4,14 +4,18 @@ public class Subject {
 	private int id;
     private String name;
     private int credits;        // số tín chỉ (2-4)
-    private boolean required; // true = môn bắt buộc, false = môn tự chọn
+    private boolean isCore;        // Môn cốt lõi
+    private boolean isCompulsory;  // Môn bắt buộc
+    private boolean hasLab;
     
-	public Subject(int id, String name, int credits, boolean required) {
+	public Subject(int id, String name, int credits, boolean isCore, boolean isCompulsory, boolean hasLab) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.credits = credits;
-		this.required = required;
+		this.isCore = isCore;
+		this.isCompulsory = isCompulsory;
+		this.hasLab = hasLab;
 	}
 
 	public int getId() {
@@ -37,19 +41,34 @@ public class Subject {
 	public void setCredits(int credits) {
 		this.credits = credits;
 	}
-	
 
-	public boolean isRequired() {
-		return required;
+	public boolean isCore() {
+		return isCore;
 	}
 
-	public void setRequired(boolean required) {
-		this.required = required;
+	public void setCore(boolean isCore) {
+		this.isCore = isCore;
+	}
+
+	public boolean isCompulsory() {
+		return isCompulsory;
+	}
+
+	public void setCompulsory(boolean isCompulsory) {
+		this.isCompulsory = isCompulsory;
+	}
+
+	public boolean isHasLab() {
+		return hasLab;
+	}
+
+	public void setHasLab(boolean hasLab) {
+		this.hasLab = hasLab;
 	}
 
 	@Override
 	public String toString() {
-		return "Subject: id = " + id + "\t name = " + name + "\t\t\t credits = " + credits + "\t required = " + required;
+		return "Subject: id = " + id + "\tname = " + name + "\tcredits = " + credits + "\tisCore = " + isCore
+				+ "\tisCompulsory = " + isCompulsory + "\thasLab = " + hasLab;
 	}
-
 }

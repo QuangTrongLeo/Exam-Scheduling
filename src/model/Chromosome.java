@@ -25,7 +25,7 @@ public class Chromosome {
 	}
 	@Override
 	public String toString() {
-		return "Chromosome [genes=" + genes + ", fitness=" + fitness + "]";
+		return "Chromosome:\n genes = " + genes + "\nfitness = " + fitness;
 	}
     
     

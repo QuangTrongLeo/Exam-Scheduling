@@ -122,19 +122,19 @@ public class TimeTable extends JPanel {
         
         // Duyệt qua từng Gene và thêm vào bảng
         for (Gene gene : chromosome.getGenes()) {
-            Subject subject = gene.getSubject();
-            TimeSlot theorySlot = gene.getTheoryTimeSlot();
-            TimeSlot practiceSlot = gene.getPracticeTimeSlot();
-            
-            // Thêm lịch lý thuyết
-            if (theorySlot != null) {
-                addToSchedule(theorySlot, subject, true);
-            }
-            
-            // Thêm lịch thực hành
-            if (practiceSlot != null) {
-                addToSchedule(practiceSlot, subject, false);
-            }
+//            Subject subject = gene.getSubject();
+//            TimeSlot theorySlot = gene.getTheoryTimeSlot();
+//            TimeSlot practiceSlot = gene.getPracticeTimeSlot();
+//            
+//            // Thêm lịch lý thuyết
+//            if (theorySlot != null) {
+//                addToSchedule(theorySlot, subject, true);
+//            }
+//            
+//            // Thêm lịch thực hành
+//            if (practiceSlot != null) {
+//                addToSchedule(practiceSlot, subject, false);
+//            }
         }
     }
     
