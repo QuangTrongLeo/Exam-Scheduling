@@ -3,22 +3,22 @@ package model;
 import java.util.List;
 
 public class Lecturer {
-	private String id;
+	private int id;
     private String name;
     private List<Subject> subjects;
-    
-	public Lecturer(String id, String name, List<Subject> subjects) {
+
+	public Lecturer(int id, String name, List<Subject> subjects) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.subjects = subjects;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -40,7 +40,7 @@ public class Lecturer {
 
 	@Override
 	public String toString() {
-		return "Lecturer: id = " + id + "\tname = " + name + "\tsubjects = " + subjects;
+		return "Lecturer: id = " + id + "\t name = " + name + "\n\tsubjects = " + subjects;
 	}
     
 }

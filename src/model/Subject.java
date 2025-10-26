@@ -68,7 +68,7 @@ public class Subject {
 
 	@Override
 	public String toString() {
-		return "Subject: id = " + id + "\tname = " + name + "\tcredits = " + credits + "\tisCore = " + isCore
-				+ "\tisCompulsory = " + isCompulsory + "\thasLab = " + hasLab;
+		return "Subject: id = " + id + "\t name = " + name + "\t credits = " + credits + "\t isCore = " + isCore
+				+ "\t isCompulsory = " + isCompulsory + "\t hasLab = " + hasLab;
 	}
 }

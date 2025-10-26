@@ -1,22 +1,22 @@
 package model;
 
 public class Room {
-	private String id;
+	private int id;
     private String name;
     private boolean isLab;
     
-	public Room(String id, String name, boolean isLab) {
+	public Room(int id, String name, boolean isLab) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.isLab = isLab;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -38,7 +38,7 @@ public class Room {
 
 	@Override
 	public String toString() {
-		return "Room: id = " + id + ",\tname = " + name + "\tisLab = " + isLab;
+		return "Room: id = " + id + "\t name = " + name + "\t isLab = " + isLab;
 	}
-       
+        
 }
