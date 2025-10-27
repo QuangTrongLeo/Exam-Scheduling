@@ -1,5 +1,9 @@
 package model;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Subject {
 	private int id;
     private String name;
@@ -71,4 +75,32 @@ public class Subject {
 		return "Subject: id = " + id + "\t name = " + name + "\t credits = " + credits + "\t isCore = " + isCore
 				+ "\t isCompulsory = " + isCompulsory + "\t hasLab = " + hasLab;
 	}
+	
+	public Map<String, Integer> calculateSchedule() {
+        int theory = 0;
+        int lab = 0;
+
+        if (isCompulsory && isCore && hasLab) {
+            theory = randomBetween(2, 3);
+            lab = theory + 2;
+        } else if (isCompulsory && hasLab) {
+            theory = randomBetween(2, 3);
+            lab = theory + 1;
+        } else if (!isCompulsory && hasLab) {
+            theory = randomBetween(1, 2);
+            lab = theory + 1;
+        } else if (isCompulsory && !hasLab) {
+            theory = 2;
+            lab = 0;
+        }
+
+        Map<String, Integer> schedule = new HashMap<>();
+        schedule.put("theory", theory);
+        schedule.put("lab", lab);
+        return schedule;
+    }
+
+    private int randomBetween(int min, int max) {
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
+    }
 }

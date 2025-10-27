@@ -39,7 +39,14 @@ public class SubjectData {
     public static void main(String[] args) {
 		for (Subject s : initSubjects()) {
 			System.out.println(s.toString());
+			Map<String, Integer> info = s.calculateSchedule();
+	        System.out.printf("%s -> Lý thuyết: %d, Thực hành: %d%n",
+	                s.getName(),
+	                info.get("theory"),
+	                info.get("lab"));
+	        System.out.println();
 		}
+		
 	}
    
 }
