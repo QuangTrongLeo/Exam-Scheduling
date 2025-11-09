@@ -4,12 +4,12 @@ import java.util.List;
 
 public class Gene {
 	private Lecturer lecturer;
-    private List<Lesson> lessons;
+    private List<ClassSession> sessions;
     
-	public Gene(Lecturer lecturer, List<Lesson> lessons) {
+	public Gene(Lecturer lecturer, List<ClassSession> sessions) {
 		super();
 		this.lecturer = lecturer;
-		this.lessons = lessons;
+		this.sessions = sessions;
 	}
 
 	public Lecturer getLecturer() {
@@ -20,17 +20,17 @@ public class Gene {
 		this.lecturer = lecturer;
 	}
 
-	public List<Lesson> getLessons() {
-		return lessons;
+	public List<ClassSession> getSessions() {
+		return sessions;
 	}
 
-	public void setLessons(List<Lesson> lessons) {
-		this.lessons = lessons;
+	public void setSessions(List<ClassSession> sessions) {
+		this.sessions = sessions;
 	}
 
 	@Override
 	public String toString() {
-		return "Gene: lecturer = " + lecturer + "\tlessons = " + lessons;
+		return "Gene: lecturer = " + lecturer + "\t lessons = " + sessions;
 	} 
     
     

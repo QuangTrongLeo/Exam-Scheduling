@@ -1,11 +1,11 @@
 package model;
 
-public class Lesson {
+public class ClassSession {
 	private Subject subject;
     private Room room;
     private TimeSlot timeSlot;
     
-	public Lesson(Subject subject, Room room, TimeSlot timeSlot) {
+	public ClassSession(Subject subject, Room room, TimeSlot timeSlot) {
 		super();
 		this.subject = subject;
 		this.room = room;
