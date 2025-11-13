@@ -3,12 +3,14 @@ package model;
 public class Room {
 	private int id;
     private String name;
+    private int capacity;
     private boolean isLab;
     
-	public Room(int id, String name, boolean isLab) {
+	public Room(int id, String name, int capacity, boolean isLab) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.capacity = capacity;
 		this.isLab = isLab;
 	}
 
@@ -32,13 +34,21 @@ public class Room {
 		return isLab;
 	}
 
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
 	public void setLab(boolean isLab) {
 		this.isLab = isLab;
 	}
 
 	@Override
 	public String toString() {
-		return "Room: id = " + id + "\t name = " + name + "\t isLab = " + isLab;
+		return "Room: id = " + id + "\t name = " + name + "\t capacity = " + capacity + "\t isLab = " + isLab;
 	}
         
 }

@@ -2,12 +2,14 @@ package model;
 
 public class ClassSession {
 	private Subject subject;
+    private Lecturer lecturer;
     private Room room;
     private TimeSlot timeSlot;
     
-	public ClassSession(Subject subject, Room room, TimeSlot timeSlot) {
+	public ClassSession(Subject subject, Lecturer lecturer, Room room, TimeSlot timeSlot) {
 		super();
 		this.subject = subject;
+		this.lecturer = lecturer;
 		this.room = room;
 		this.timeSlot = timeSlot;
 	}
@@ -18,6 +20,14 @@ public class ClassSession {
 
 	public void setSubject(Subject subject) {
 		this.subject = subject;
+	}
+
+	public Lecturer getLecturer() {
+		return lecturer;
+	}
+
+	public void setLecturer(Lecturer lecturer) {
+		this.lecturer = lecturer;
 	}
 
 	public Room getRoom() {
@@ -38,7 +48,7 @@ public class ClassSession {
 
 	@Override
 	public String toString() {
-		return "Lesson: subject = " + subject + "\troom = " + room + "\ttimeSlot = " + timeSlot;
+		return "ClassSession: subject = " + subject + "\tlecture = " + lecturer + "\troom = " + room + "\ttimeSlot = " + timeSlot;
 	}
     
 }

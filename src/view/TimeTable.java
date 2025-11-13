@@ -112,31 +112,31 @@ public class TimeTable extends JPanel {
      * Load dữ liệu từ Chromosome (thời khóa biểu) vào bảng
      * @param chromosome Thời khóa biểu cần hiển thị
      */
-    public void loadSchedule(Chromosome chromosome) {
-        // Clear dữ liệu cũ
-        clearSchedule();
-        
-        if (chromosome == null || chromosome.getGenes() == null) {
-            return;
-        }
-        
-        // Duyệt qua từng Gene và thêm vào bảng
-        for (Gene gene : chromosome.getGenes()) {
-//            Subject subject = gene.getSubject();
-//            TimeSlot theorySlot = gene.getTheoryTimeSlot();
-//            TimeSlot practiceSlot = gene.getPracticeTimeSlot();
-//            
-//            // Thêm lịch lý thuyết
-//            if (theorySlot != null) {
-//                addToSchedule(theorySlot, subject, true);
-//            }
-//            
-//            // Thêm lịch thực hành
-//            if (practiceSlot != null) {
-//                addToSchedule(practiceSlot, subject, false);
-//            }
-        }
-    }
+//    public void loadSchedule(Chromosome chromosome) {
+//        // Clear dữ liệu cũ
+//        clearSchedule();
+//        
+//        if (chromosome == null || chromosome.getGenes() == null) {
+//            return;
+//        }
+//        
+//        // Duyệt qua từng Gene và thêm vào bảng
+//        for (Gene gene : chromosome.getGenes()) {
+////            Subject subject = gene.getSubject();
+////            TimeSlot theorySlot = gene.getTheoryTimeSlot();
+////            TimeSlot practiceSlot = gene.getPracticeTimeSlot();
+////            
+////            // Thêm lịch lý thuyết
+////            if (theorySlot != null) {
+////                addToSchedule(theorySlot, subject, true);
+////            }
+////            
+////            // Thêm lịch thực hành
+////            if (practiceSlot != null) {
+////                addToSchedule(practiceSlot, subject, false);
+////            }
+//        }
+//    }
     
     /**
      * Thêm môn học vào ô tương ứng trong bảng
