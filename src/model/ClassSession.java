@@ -14,6 +14,10 @@ public class ClassSession {
 		this.timeSlot = timeSlot;
 	}
 
+	public ClassSession() {
+		super();
+	}
+
 	public Subject getSubject() {
 		return subject;
 	}
