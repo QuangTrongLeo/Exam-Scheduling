@@ -33,33 +33,36 @@ public class SchedulePrint {
 
     
     public void printGene(Gene gene) {
-	    System.out.println("Giảng viên: " + gene.getLecturer().getName());
-	
-	    Map<Integer, Map<Integer, ClassSession>> schedule = new TreeMap<>();
-	    for (ClassSession cs : gene.getClassSessions()) {
-	        int day = cs.getTimeSlot().getDay();
-	        int period = cs.getTimeSlot().getPeriod();
-	        schedule.putIfAbsent(day, new TreeMap<>()); // TreeMap để thứ tự ca tự nhiên
-	        schedule.get(day).put(period, cs);
-	    }
-	
-	    // Giả sử các ngày là 2 -> 7 và ca 1 -> 4
-	    for (int day = 2; day <= 7; day++) {
-	        System.out.print("   Thứ " + day + ": ");
-	        List<String> periodStrings = new ArrayList<>();
-	
-	        for (int period = 1; period <= 4; period++) {
-	            if (schedule.containsKey(day) && schedule.get(day).containsKey(period)) {
-	                ClassSession cs = schedule.get(day).get(period);
-	                periodStrings.add("Ca " + period + " - " 
-	                                  + cs.getSubject().getName() + "(" + cs.getRoom().getName() + ")");
-	            } else {
-	                periodStrings.add("Ca " + period + " - trống");
-	            }
-	        }
-	
-	        System.out.println(String.join(" ; ", periodStrings));
-	    }
-	    System.out.println();
-	}
+        System.out.println("Giảng viên: " + gene.getLecturer().getName());
+
+        Map<Integer, Map<Integer, List<ClassSession>>> schedule = new TreeMap<>();
+        for (ClassSession cs : gene.getClassSessions()) {
+            int day = cs.getTimeSlot().getDay();
+            int period = cs.getTimeSlot().getPeriod();
+            schedule.putIfAbsent(day, new TreeMap<>());
+            schedule.get(day).putIfAbsent(period, new ArrayList<>());
+            schedule.get(day).get(period).add(cs);
+        }
+
+        for (int day = 2; day <= 7; day++) {
+            System.out.print("   Thứ " + day + ": ");
+            List<String> periodStrings = new ArrayList<>();
+
+            for (int period = 1; period <= 4; period++) {
+                if (schedule.containsKey(day) && schedule.get(day).containsKey(period)) {
+                    List<ClassSession> sessions = schedule.get(day).get(period);
+                    List<String> sessionStrings = new ArrayList<>();
+                    for (ClassSession cs : sessions) {
+                        sessionStrings.add(cs.getSubject().getName() + "(" + cs.getRoom().getName() + ")");
+                    }
+                    periodStrings.add("Ca " + period + " - " + String.join(" - ", sessionStrings));
+                } else {
+                    periodStrings.add("Ca " + period + " - trống");
+                }
+            }
+
+            System.out.println(String.join(" ; ", periodStrings));
+        }
+        System.out.println();
+    }
 }

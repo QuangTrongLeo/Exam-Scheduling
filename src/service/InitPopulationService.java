@@ -2,10 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
-
 import data.LecturerData;
 import data.RoomData;
 import data.TimeSlotData;
@@ -112,7 +109,7 @@ public class InitPopulationService {
         if (subject.isCore()) {
             for (Room r : theoryRooms) if (r.getCapacity() == 120) filtered.add(r);
         } else {
-            for (Room r : theoryRooms) if (r.getCapacity() == 80) filtered.add(r);
+            for (Room r : theoryRooms) if (r.getCapacity() == 80 || r.getCapacity() == 120) filtered.add(r);
         }
         return filtered.get(random.nextInt(filtered.size()));
     }
