@@ -13,8 +13,18 @@ public class ScheduleController {
     	this.initPopulationService = new InitPopulationService();
     }
 
-    // 1. Khởi tạo quần thể
+    // ===== 1. KHỞI TẠO QUẦN THỂ =====
     public Population initPopulation() {
     	return initPopulationService.initializePopulation(Config.POPULATION_SIZE);
     }
+    
+    // ===== 2. TÍNH FITNESS =====
+    // 2.1. Tính fitness cho mỗi cá thể
+    public double fitness() {
+    	double fitness = 0;
+    	return fitness;
+    }
+    
+    // 2.2. Tính fitness cho tất cả cá thể
+    
 }
