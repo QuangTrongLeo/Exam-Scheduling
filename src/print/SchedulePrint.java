@@ -13,14 +13,14 @@ import model.Population;
 public class SchedulePrint {
 	public SchedulePrint() {}
 	
-	public void printPopulation(Population population) {
+	public void printInitPopulation(Population population) {
         int idx = 1;
         for (Individual individual : population.getIndividuals()) {
             System.out.println("----- Individual " + idx + " -----");
             printIndividual(individual);
             idx++;
         }
-        System.out.println("========== Quần thể gồm " + population.getIndividuals().size() + " cá thể ==========\n");
+        System.out.println("========== Quần thể gồm " + population.sizeIndividuals() + " cá thể ==========\n");
     }
 
     

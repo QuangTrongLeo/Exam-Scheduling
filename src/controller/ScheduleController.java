@@ -7,6 +7,7 @@ import service.InitPopulationService;
 
 public class ScheduleController {
 	
+	private Population population;
 	private final InitPopulationService initPopulationService; 
 
     public ScheduleController() {
@@ -15,7 +16,8 @@ public class ScheduleController {
 
     // ===== 1. KHỞI TẠO QUẦN THỂ =====
     public Population initPopulation() {
-    	return initPopulationService.initializePopulation(Config.POPULATION_SIZE);
+    	population = initPopulationService.initializePopulation(Config.INIT_POPULATION_SIZE);
+    	return population;
     }
     
     // ===== 2. TÍNH FITNESS =====
