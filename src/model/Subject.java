@@ -3,16 +3,21 @@ package model;
 public class Subject {
 	private int id;
     private String name;
-    private int credits;        // số tín chỉ (2-4)
-    private boolean required; // true = môn bắt buộc, false = môn tự chọn
-    
-	public Subject(int id, String name, int credits, boolean required) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.credits = credits;
-		this.required = required;
-	}
+    private int credits;
+    private boolean isCore;
+    private boolean isCompulsory;
+    private int theoryLessons;
+    private int labLessons;
+
+    public Subject(int id, String name, int credits, boolean isCore, boolean isCompulsory, int theoryLessons, int labLessons) {
+        this.id = id;
+        this.name = name;
+        this.credits = credits;
+        this.isCore = isCore;
+        this.isCompulsory = isCompulsory;
+        this.theoryLessons = theoryLessons;
+        this.labLessons = labLessons;
+    }
 
 	public int getId() {
 		return id;
@@ -37,19 +42,51 @@ public class Subject {
 	public void setCredits(int credits) {
 		this.credits = credits;
 	}
-	
 
-	public boolean isRequired() {
-		return required;
+	public boolean isCore() {
+		return isCore;
 	}
 
-	public void setRequired(boolean required) {
-		this.required = required;
+	public void setCore(boolean isCore) {
+		this.isCore = isCore;
+	}
+
+	public boolean isCompulsory() {
+		return isCompulsory;
+	}
+
+	public void setCompulsory(boolean isCompulsory) {
+		this.isCompulsory = isCompulsory;
+	}
+
+	public int getTheoryLessons() {
+		return theoryLessons;
+	}
+
+	public void setTheoryLessons(int theoryLessons) {
+		this.theoryLessons = theoryLessons;
+	}
+
+	public int getLabLessons() {
+		return labLessons;
+	}
+
+	public void setLabLessons(int labLessons) {
+		this.labLessons = labLessons;
 	}
 
 	@Override
 	public String toString() {
-		return "Subject: id = " + id + "\t name = " + name + "\t\t\t credits = " + credits + "\t required = " + required;
+		return "Subject: id = " + id + "\t name = " + name + "\t credits = " + credits + "\t isCore = " + isCore
+				+ "\t isCompulsory = " + isCompulsory + "\t theoryLessons = " + theoryLessons + "\t labLessons = " + labLessons;
 	}
+
+//	@Override
+//	public String toString() {
+//		return "Subject: id = " + id + "\t name = " + name + "\t credits = " + credits + "\t isCore = " + isCore
+//				+ "\t isCompulsory = " + isCompulsory + "\t hasLab = " + hasLab;
+//	}
+	
+	
 
 }

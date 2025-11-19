@@ -1,39 +1,35 @@
 package model;
 
+import java.util.List;
+
 public class Gene {
-	private Subject subject;
-    private TimeSlot theoryTimeSlot;
-    private TimeSlot practiceTimeSlot;
-    
-	public Gene(Subject subject, TimeSlot theoryTimeSlot, TimeSlot practiceTimeSlot) {
+	private Lecturer lecturer;
+    private List<ClassSession> classSessions;
+	public Gene(Lecturer lecturer, List<ClassSession> classSessions) {
 		super();
-		this.subject = subject;
-		this.theoryTimeSlot = theoryTimeSlot;
-		this.practiceTimeSlot = practiceTimeSlot;
+		this.lecturer = lecturer;
+		this.classSessions = classSessions;
 	}
 
-	public Subject getSubject() {
-		return subject;
+	public Gene() {
+		super();
 	}
 
-	public void setSubject(Subject subject) {
-		this.subject = subject;
+	public Lecturer getLecturer() {
+		return lecturer;
 	}
-
-	public TimeSlot getTheoryTimeSlot() {
-		return theoryTimeSlot;
+	public void setLecturer(Lecturer lecturer) {
+		this.lecturer = lecturer;
 	}
-
-	public void setTheoryTimeSlot(TimeSlot theoryTimeSlot) {
-		this.theoryTimeSlot = theoryTimeSlot;
+	public List<ClassSession> getClassSessions() {
+		return classSessions;
 	}
-
-	public TimeSlot getPracticeTimeSlot() {
-		return practiceTimeSlot;
+	public void setClassSessions(List<ClassSession> classSessions) {
+		this.classSessions = classSessions;
 	}
-
-	public void setPracticeTimeSlot(TimeSlot practiceTimeSlot) {
-		this.practiceTimeSlot = practiceTimeSlot;
+	@Override
+	public String toString() {
+		return "LecturerSchedule: lecturer = " + lecturer.getName() + "\n classSessions=" + classSessions;
 	}
-
+    
 }

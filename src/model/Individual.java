@@ -2,14 +2,16 @@ package model;
 
 import java.util.List;
 
-public class Chromosome {
-    private List<Gene> genes; // hoặc List<Gene>
-    private double fitness;           // điểm fitness
-    
-	public Chromosome(List<Gene> genes, double fitness) {
+public class Individual {
+	private List<Gene> genes; 
+	private double fitness;
+	public Individual(List<Gene> genes, double fitness) {
 		super();
 		this.genes = genes;
 		this.fitness = fitness;
+	}
+	public Individual() {
+		super();
 	}
 	public List<Gene> getGenes() {
 		return genes;
@@ -23,10 +25,5 @@ public class Chromosome {
 	public void setFitness(double fitness) {
 		this.fitness = fitness;
 	}
-	@Override
-	public String toString() {
-		return "Chromosome [genes=" + genes + ", fitness=" + fitness + "]";
-	}
-    
-    
+	
 }
