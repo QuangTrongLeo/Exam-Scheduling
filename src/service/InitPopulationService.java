@@ -137,4 +137,10 @@ public class InitPopulationService {
         }
     	return labLessons;
     }
+    
+    public Individual createIndividualPublic() {
+        return createIndividual();
+    }
+    
+    
 }

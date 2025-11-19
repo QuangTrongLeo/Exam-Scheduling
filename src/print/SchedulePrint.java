@@ -24,12 +24,13 @@ public class SchedulePrint {
     }
 
     
-    public void printIndividual(Individual individual) {
-        for (Gene gene : individual.getGenes()) {
-            printGene(gene);
-        }
-        System.out.println("--------------------------------------------------\n");
-    }
+	public void printIndividual(Individual individual) {
+	    System.out.println("=== FITNESS: " + String.format("%.2f", individual.getFitness()) + " ===");
+	    for (Gene gene : individual.getGenes()) {
+	        printGene(gene);
+	    }
+	    System.out.println("--------------------------------------------------\n");
+	}
 
     
     public void printGene(Gene gene) {
