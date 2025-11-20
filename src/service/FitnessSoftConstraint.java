@@ -19,7 +19,7 @@ import model.Subject;
 
 public class FitnessSoftConstraint {
 	
-    private static final double MAX_FITNESS = 1_000_000.0;
+    private static final double MAX_FITNESS = 20000;
 
     public FitnessSoftConstraint() {}
 
@@ -73,19 +73,26 @@ public class FitnessSoftConstraint {
         double fitness = MAX_FITNESS - totalPenalty;
         return Math.max(0, fitness); // không âm
     }
+    
+    //  Tính fitness và tự động gán vào Individual
+    public double fitness(Individual individual) {
+        double f = calculateFitness(individual);
+        individual.setFitness(f);
+        return f;
+    }
 
     // S1 + S11: Ưu tiên dạy ít ngày (3-4 ngày), có ít nhất 1 ngày nghỉ hoàn toàn
     private double penaltyTeachingDays(Map<Integer, List<ClassSession>> sessionsByDay) {
         int teachingDays = sessionsByDay.size();
         double penalty = 0;
         if (teachingDays > 4)
-            penalty += (teachingDays - 4) * 80; // dạy >4 ngày: phạt nặng
+            penalty += (teachingDays - 4) * 40; // dạy >4 ngày: phạt nặng
         if (teachingDays < 3)
-            penalty += (3 - teachingDays) * 50; // dạy <3 ngày: cũng không tốt
+            penalty += (3 - teachingDays) * 30; // dạy <3 ngày: cũng không tốt
         if (teachingDays == 6)
-            penalty += 200; // dạy full tuần: phạt rất nặng
+            penalty += 150; // dạy full tuần: phạt rất nặng
         if (sessionsByDay.size() < 6)
-            penalty -= 50; // có ngày nghỉ: thưởng nhẹ
+            penalty -= 30; // có ngày nghỉ: thưởng nhẹ
         return penalty;
     }
 
@@ -101,7 +108,7 @@ public class FitnessSoftConstraint {
                 }
             }
             if (days.size() > 2) {
-                penalty += (days.size() - 2) * 60;
+                penalty += (days.size() - 2) * 35;
             }
         }
         return penalty;
@@ -112,7 +119,7 @@ public class FitnessSoftConstraint {
         double penalty = 0;
         for (ClassSession cs : sessions) {
             if (cs.getSubject().isCore() && cs.getTimeSlot().getPeriod() >= 3) {
-                penalty += 70;
+                penalty += 50;
             }
         }
         return penalty;
@@ -120,20 +127,21 @@ public class FitnessSoftConstraint {
 
     // S4: Không dạy quá 3 ca liên tiếp trong 1 ngày
     private double penaltyConsecutivePeriods(Map<Integer, List<ClassSession>> sessionsByDay) {
-        double penalty = 0;
+        double penalty = 0.0;
+
         for (List<ClassSession> daySessions : sessionsByDay.values()) {
-            Set<Integer> periods = daySessions.stream()
-                    .map(cs -> cs.getTimeSlot().getPeriod())
-                    .collect(Collectors.toSet());
-            if (periods.containsAll(Arrays.asList(1, 2, 3, 4))) {
-                penalty += 150; // dạy full 4 ca: phạt nặng
+            Set<Integer> periods = new HashSet<>();
+            for (ClassSession cs : daySessions) {
+                periods.add(cs.getTimeSlot().getPeriod());
+            }
+
+            boolean hasFour = periods.size() == 4;
+            if (hasFour) {
+                penalty += 100;
             } else if (periods.size() >= 3) {
-                // Kiểm tra có 3 ca liên tiếp không
-                for (int i = 1; i <= 2; i++) {
-                    if (periods.contains(i) && periods.contains(i + 1) && periods.contains(i + 2)) {
-                        penalty += 80;
-                    }
-                }
+                // Kiểm tra 3 ca liên tiếp: 1-2-3 hoặc 2-3-4
+                if (periods.contains(1) && periods.contains(2) && periods.contains(3)) penalty += 50;
+                if (periods.contains(2) && periods.contains(3) && periods.contains(4)) penalty += 50;
             }
         }
         return penalty;
@@ -155,7 +163,7 @@ public class FitnessSoftConstraint {
             for (int i = 0; i < sorted.size() - 1; i++) {
                 int gap = sorted.get(i + 1) - sorted.get(i);
                 if (gap > 1) {
-                    penalty += (gap - 1) * 40;
+                    penalty += (gap - 1) * 20;
                 }
             }
         }
@@ -181,7 +189,7 @@ public class FitnessSoftConstraint {
 
         double penalty = 0;
         for (int c : dailyCounts) {
-            penalty += Math.abs(c - avg) * 30;
+            penalty += Math.abs(c - avg) * 15;
         }
         return penalty;
     }
@@ -192,9 +200,9 @@ public class FitnessSoftConstraint {
         int totalPossibleDays = 6; // Thứ 2 đến Thứ 7
         int restDays = totalPossibleDays - teachingDays;
         if (restDays == 0) {
-            return 200; // Không có ngày nghỉ nào → phạt nặng
+            return 120; // Không có ngày nghỉ nào → phạt nặng
         } else if (restDays >= 2) {
-            return -50; // Có từ 2 ngày nghỉ trở lên → thưởng nhẹ (có thể để 0 nếu không muốn thưởng)
+            return -20; // Có từ 2 ngày nghỉ trở lên → thưởng nhẹ (có thể để 0 nếu không muốn thưởng)
         }
         return 0; // Có đúng 1 ngày nghỉ → lý tưởng, không phạt
     }
@@ -204,7 +212,7 @@ public class FitnessSoftConstraint {
         double penalty = 0;
         for (ClassSession cs : sessions) {
             if (cs.getRoom().isLab() && cs.getTimeSlot().getPeriod() == 4) {
-                penalty += 100;
+                penalty += 80;
             }
         }
         return penalty;

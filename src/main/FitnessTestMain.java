@@ -12,6 +12,8 @@ public class FitnessTestMain {
     	SchedulePrint printer = new SchedulePrint();
     	InitPopulationService initPopulationService = new InitPopulationService();
     	Individual individual = initPopulationService.createIndividual();
+    	
+    	
     	double fitness = controller.fitness(individual);        
         printer.printIndividual(individual);
         System.out.println("Fitness của cá thể này: " + fitness);

@@ -27,9 +27,7 @@ public class ScheduleController {
     // ===== 2. TÍNH FITNESS =====
     // 2.1. Tính fitness cho mỗi cá thể
     public double fitness(Individual individual) {
-    	double fitness = fitnessService.calculateFitness(individual);
-    	individual.setFitness(fitness);
-    	return fitness;
+    	return fitnessService.fitness(individual);
     }
     
     // 2.2. Tính fitness cho tất cả cá thể
