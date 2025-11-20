@@ -1,7 +1,9 @@
 package controller;
 
 import config.Config;
+import model.Individual;
 import model.Population;
+import service.FitnessSoftConstraint;
 import service.InitPopulationService;
 
 
@@ -9,9 +11,11 @@ public class ScheduleController {
 	
 	private Population population;
 	private final InitPopulationService initPopulationService; 
+	private final FitnessSoftConstraint fitnessService;
 
     public ScheduleController() {
     	this.initPopulationService = new InitPopulationService();
+    	this.fitnessService = new FitnessSoftConstraint();
     }
 
     // ===== 1. KHỞI TẠO QUẦN THỂ =====
@@ -22,8 +26,9 @@ public class ScheduleController {
     
     // ===== 2. TÍNH FITNESS =====
     // 2.1. Tính fitness cho mỗi cá thể
-    public double fitness() {
-    	double fitness = 0;
+    public double fitness(Individual individual) {
+    	double fitness = fitnessService.calculateFitness(individual);
+    	individual.setFitness(fitness);
     	return fitness;
     }
     
