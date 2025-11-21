@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Room {
 	private int id;
     private String name;
@@ -44,6 +46,23 @@ public class Room {
 
 	public void setLab(boolean isLab) {
 		this.isLab = isLab;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(capacity, id, isLab, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Room other = (Room) obj;
+		return capacity == other.capacity && id == other.id && isLab == other.isLab && Objects.equals(name, other.name);
 	}
 
 	@Override

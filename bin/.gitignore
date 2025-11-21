@@ -1,6 +1,8 @@
-/main/
-/print/
+/config/
 /controller/
-/model/
-/view/
 /data/
+/main/
+/model/
+/print/
+/service/
+/view/
