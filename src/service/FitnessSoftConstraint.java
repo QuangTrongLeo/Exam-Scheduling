@@ -77,7 +77,6 @@ public class FitnessSoftConstraint {
     //  Tính fitness và tự động gán vào Individual
     public double fitness(Individual individual) {
         double f = calculateFitness(individual);
-        individual.setFitness(f);
         return f;
     }
 

@@ -16,6 +16,9 @@ public class FitnessTestMain {
     	
     	
     	double fitness = controller.fitness(individual);        
+    	
+    	individual.setFitness(fitness);
+    	
         printer.printIndividual(individual);
         System.out.println("Fitness của cá thể này: " + fitness);
         
