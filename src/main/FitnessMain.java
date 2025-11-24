@@ -1,4 +1,3 @@
-// File: main/FitnessTestMain.java
 package main;
 
 import controller.ScheduleController;
@@ -6,7 +5,7 @@ import model.Individual;
 import print.SchedulePrint;
 import service.InitPopulationService;
 
-public class FitnessTestMain {
+public class FitnessMain {
     public static void main(String[] args) {
     	ScheduleController controller = new ScheduleController();
     	SchedulePrint printer = new SchedulePrint();

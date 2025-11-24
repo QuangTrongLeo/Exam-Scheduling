@@ -13,17 +13,18 @@ import model.Population;
 public class SchedulePrint {
 	public SchedulePrint() {}
 	
+	// ========== POPULATION ==========
 	public void printInitPopulation(Population population) {
         int idx = 1;
         for (Individual individual : population.getIndividuals()) {
-            System.out.println("----- Individual " + idx + " -----");
+            System.out.println("----- Cá thể " + idx + " -----");
             printIndividual(individual);
             idx++;
         }
         System.out.println("========== Quần thể gồm " + population.sizeIndividuals() + " cá thể ==========\n");
     }
 
-    
+    // ========== INDIVIDUAL ==========
 	public void printIndividual(Individual individual) {
 	    System.out.println("--- Fitness: " + individual.getFitness() + " ---");
 	    for (Gene gene : individual.getGenes()) {
@@ -31,8 +32,16 @@ public class SchedulePrint {
 	    }
 	    System.out.println("--------------------------------------------------\n");
 	}
+	
+	public void printFitnessIndividuals(Population population) {
+        int idx = 1;
+        for (Individual individual : population.getIndividuals()) {
+            System.out.println("Cá thể " + idx + ": " + individual.getFitness() + " finess");
+            idx++;
+        }
+    }
 
-    
+    // ========== GENE ==========
     public void printGene(Gene gene) {
         System.out.println("Giảng viên: " + gene.getLecturer().getName());
 

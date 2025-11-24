@@ -17,11 +17,11 @@ import model.Individual;
 import model.Lecturer;
 import model.Subject;
 
-public class FitnessSoftConstraint {
+public class FitnessSoftConstraintService {
 	
     private static final double MAX_FITNESS = 20000;
 
-    public FitnessSoftConstraint() {}
+    public FitnessSoftConstraintService() {}
 
     public double calculateFitness(Individual individual) {
     	double totalPenalty = 0;
