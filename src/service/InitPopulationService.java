@@ -38,7 +38,7 @@ public class InitPopulationService {
     }
 
     // Tạo cá thể
-    private Individual createIndividual() {
+    public Individual createIndividual() {
         Individual individual = new Individual();
         List<Gene> genes = new ArrayList<>();
         for (Lecturer l : lecturers) {
@@ -137,10 +137,4 @@ public class InitPopulationService {
         }
     	return labLessons;
     }
-    
-    public Individual createIndividualPublic() {
-        return createIndividual();
-    }
-    
-    
 }
