@@ -1,8 +1,11 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+
 import data.LecturerData;
 import data.RoomData;
 import data.TimeSlotData;
@@ -54,6 +57,8 @@ public class InitPopulationService {
         Gene gene = new Gene();
         gene.setLecturer(lecturer);
         List<ClassSession> classSessions = new ArrayList<>();
+        
+        Set<TimeSlot> usedTimeSlots = new HashSet<>();
 
         List<Room> theoryRooms = filterTheoryRooms(rooms);
         List<Room> labRooms = filterLabRooms(rooms);
@@ -66,7 +71,7 @@ public class InitPopulationService {
 
             Room theoryRoom = pickTheoryRoom(subject, theoryRooms, random);
             theorySession.setRoom(theoryRoom);
-            theorySession.setTimeSlot(pickRandomTimeSlot(timeSlots, random));
+            theorySession.setTimeSlot(pickRandomTimeSlot(timeSlots, usedTimeSlots, random));
             classSessions.add(theorySession);
 
             // --- Ca thực hành ---
@@ -76,7 +81,7 @@ public class InitPopulationService {
                 labSession.setLecturer(lecturer);
                 labSession.setSubject(subject);
                 labSession.setRoom(pickRandomRoom(labRooms, random));
-                labSession.setTimeSlot(pickRandomTimeSlot(timeSlots, random));
+                labSession.setTimeSlot(pickRandomTimeSlot(timeSlots, usedTimeSlots, random));
                 classSessions.add(labSession);
             }
         }
@@ -120,8 +125,23 @@ public class InitPopulationService {
     }
 
     // Chọn ca học ngẫu nhiên
-    private TimeSlot pickRandomTimeSlot(List<TimeSlot> slots, Random random) {
-        return slots.get(random.nextInt(slots.size()));
+    private TimeSlot pickRandomTimeSlot(List<TimeSlot> slots, Set<TimeSlot> usedTimeSlots, Random random) {
+        List<TimeSlot> available = new ArrayList<>();
+
+        for (TimeSlot ts : slots) {
+            if (!usedTimeSlots.contains(ts)) {
+                available.add(ts);
+            }
+        }
+
+        if (available.isEmpty()) {
+            usedTimeSlots.clear();
+            available.addAll(slots);
+        }
+
+        TimeSlot picked = available.get(random.nextInt(available.size()));
+        usedTimeSlots.add(picked);
+        return picked;
     }
     
     // Số lượng ca thực hành

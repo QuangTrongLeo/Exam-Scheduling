@@ -5,8 +5,10 @@ import java.util.Objects;
 public class TimeSlot {
     private int day;    // 2 -> 7
     private int period;   // 1 -> 4
+    
+    public TimeSlot() {}
 
-    public TimeSlot(int day, int period) {
+	public TimeSlot(int day, int period) {
         this.day = day;
         this.period = period;
     }
@@ -26,8 +28,6 @@ public class TimeSlot {
 		this.period = period;
 	}
 	
-	
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(day, period);
