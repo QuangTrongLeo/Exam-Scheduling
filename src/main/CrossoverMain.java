@@ -4,7 +4,6 @@ import java.util.List;
 
 import controller.ScheduleController;
 import model.Individual;
-import model.Population;
 import print.SchedulePrint;
 
 public class CrossoverMain {

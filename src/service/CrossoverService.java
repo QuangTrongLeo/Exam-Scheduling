@@ -13,66 +13,75 @@ public class CrossoverService {
     private final Random random = new Random();
 
     public Individual selectParent(List<Individual> individuals) {
-        return individuals.get(random.nextInt(individuals.size()));
+        int randomIndex = random.nextInt(individuals.size());
+        Individual parent = individuals.get(randomIndex);
+        individuals.remove(randomIndex); 
+        return parent;
     }
     
-    public List<Individual> createOffspringPopulation(List<Individual> population) {
-        int populationSize = population.size();
+    public List<Individual> offspringCrossoverIndivials(List<Individual> individuals) {
+        List<Individual> remainingParents = new ArrayList<>(individuals);
         List<Individual> offspring = new ArrayList<>();
 
-        for (int i = 0; i < populationSize / 2; i++) {
-            Individual p1 = selectParent(population);
-            Individual p2 = selectParent(population);
+        int numPairs = individuals.size() / 2;
+        
+        for (int i = 0; i < numPairs; i++) {
+            // Chọn và loại bỏ P1
+            Individual p1 = selectParent(remainingParents); 
+            // Chọn và loại bỏ P2
+            Individual p2 = selectParent(remainingParents); 
+            
+            // Xử lý trường hợp không đủ cặp (nếu kích thước quần thể là số lẻ)
+            if (p1 == null || p2 == null) {
+                // Thêm cá thể cuối cùng còn sót lại vào offspring (giả sử là cá thể ưu tú - Elitism)
+                if (p1 != null) offspring.add(p1);
+                break;
+            }
 
             List<Individual> children = crossover(p1, p2);
             offspring.add(children.get(0));
             offspring.add(children.get(1));
         }
-
         return offspring;
     }
 
     public List<Individual> crossover(Individual p1, Individual p2){
-    	List<Individual> individuals = new ArrayList<>();
-    	Individual individual1 = crossover60_40(p1, p2);
-    	Individual individual2 = crossover40_60(p1, p2);
-    	individuals.add(individual1);
-    	individuals.add(individual2);
-    	return individuals;
+        List<Individual> individuals = new ArrayList<>();
+        
+        List<Gene> headP1 = getGeneSegment(p1, Config.CROSSOVER_60_PERCENT, true);
+        List<Gene> headP2 = getGeneSegment(p2, Config.CROSSOVER_60_PERCENT, true);
+        List<Gene> tailP1 = getGeneSegment(p1, Config.CROSSOVER_40_PERCENT, false);
+        List<Gene> tailP2 = getGeneSegment(p2, Config.CROSSOVER_40_PERCENT, false);
+
+        Individual offspringIndividual1 = createOffspringFromSegments(headP1, tailP2); 
+        Individual offspringIndividual2 = createOffspringFromSegments(headP2, tailP1);
+        
+        individuals.add(offspringIndividual1);
+        individuals.add(offspringIndividual2);
+        return individuals;
     }
-    
-    private Individual crossover60_40(Individual p1, Individual p2) {
-    	int geneSize = p1.getGenes().size();
-    	Individual individual = new Individual();
-    	List<Gene> genes = new ArrayList<>();
-        for (int i = 0; i < geneSize; i++) genes.add(null);
-        individual.setGenes(genes);
-    	
-    	int cutoff = (int) (geneSize * Config.CROSSOVER_60_PERCENT);
-    	for (int i = 0; i < geneSize; i++) {
-			if (i < cutoff) {
-				individual.getGenes().set(i, p1.getGenes().get(i));
-			} else {
-				individual.getGenes().set(i, p2.getGenes().get(i));
-			}
-		}
-    	return individual;
+
+    private List<Gene> getGeneSegment(Individual individual, double percent, boolean isHead) {
+        int geneSize = individual.getGenes().size();
+        int cutoff = (int) (geneSize * percent);
+        
+        int startIndex = isHead ? 0 : cutoff;
+        int endIndex = isHead ? cutoff : geneSize;
+        
+        List<Gene> segment = new ArrayList<>();
+        for (int i = startIndex; i < endIndex; i++) {
+            segment.add(individual.getGenes().get(i));
+        }
+        return segment;
     }
-    
-    private Individual crossover40_60(Individual p1, Individual p2) {
-    	int geneSize = p1.getGenes().size();
-        Individual individual = new Individual();
-        List<Gene> genes = new ArrayList<>();
-        for (int i = 0; i < geneSize; i++) genes.add(null);
-        individual.setGenes(genes);
-    	int cutoff = (int) (geneSize * Config.CROSSOVER_40_PERCENT);
-    	for (int i = 0; i < geneSize; i++) {
-			if (i < cutoff) {
-				individual.getGenes().set(i, p1.getGenes().get(i));
-			} else {
-				individual.getGenes().set(i, p2.getGenes().get(i));
-			}
-		}
-    	return individual;
+
+    private Individual createOffspringFromSegments(List<Gene> head, List<Gene> tail) {
+        Individual offspring = new Individual();
+        List<Gene> combinedGenes = new ArrayList<>();
+        combinedGenes.addAll(head);
+        combinedGenes.addAll(tail);
+        
+        offspring.setGenes(combinedGenes);
+        return offspring;
     }
 }

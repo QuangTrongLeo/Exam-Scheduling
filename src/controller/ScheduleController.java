@@ -66,7 +66,7 @@ public class ScheduleController {
 
     // ===== 4. LAI TẠO =====
     public List<Individual> generateCrossover(List<Individual> individuals) {
-        return crossoverService.createOffspringPopulation(individuals);
+        return crossoverService.offspringCrossoverIndivials(individuals);
     }
 
     // ===== 5. ĐỘT BIẾN =====
