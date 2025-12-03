@@ -1,6 +1,9 @@
 package main;
 
+import java.util.List;
+
 import controller.ScheduleController;
+import model.Individual;
 import model.Population;
 import print.SchedulePrint;
 
@@ -9,7 +12,7 @@ public class FitnessIndividualsMain {
 		ScheduleController controller = new ScheduleController();
 		SchedulePrint print = new SchedulePrint();
 		Population population = controller.getPopulation();
-		Population populationPrint = controller.fitnessIndividuals(population);
-		print.printFitnessIndividuals(populationPrint);
+		List<Individual> individuals = controller.fitnessIndividuals(population.getIndividuals());
+		print.printFitnessIndividuals(individuals);
 	}
 }

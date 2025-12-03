@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Individual {
@@ -10,6 +11,18 @@ public class Individual {
 		this.genes = genes;
 		this.fitness = fitness;
 	}
+	
+	public Individual cloneIndividual() {
+	    List<Gene> clonedGenes = new ArrayList<>();
+	    if (this.genes != null) {
+	        for (Gene g : this.genes) {
+	            clonedGenes.add(g);
+	        }
+	    }
+	    return new Individual(clonedGenes, this.fitness);
+	}
+
+	
 	public Individual() {
 		super();
 	}

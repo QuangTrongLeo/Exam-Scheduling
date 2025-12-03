@@ -33,9 +33,9 @@ public class SchedulePrint {
 	    System.out.println("--------------------------------------------------\n");
 	}
 	
-	public void printFitnessIndividuals(Population population) {
+	public void printFitnessIndividuals(List<Individual> individuals) {
         int idx = 1;
-        for (Individual individual : population.getIndividuals()) {
+        for (Individual individual : individuals) {
             System.out.println("Cá thể " + idx + ": " + individual.getFitness() + " finess");
             idx++;
         }
