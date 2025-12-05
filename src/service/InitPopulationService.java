@@ -53,7 +53,7 @@ public class InitPopulationService {
     }
 
     // Tạo Gene (lịch dạy của 1 giảng viên)
-    private Gene createGene(Lecturer lecturer) {
+    public Gene createGene(Lecturer lecturer) {
         Gene gene = new Gene();
         gene.setLecturer(lecturer);
         List<ClassSession> classSessions = new ArrayList<>();

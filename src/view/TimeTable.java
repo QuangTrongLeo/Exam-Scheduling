@@ -1,10 +1,30 @@
 package view;
 
-import javax.swing.*;
-import javax.swing.table.*;
-import java.awt.*;
-import java.util.*;
-import model.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+
+import controller.ScheduleController;
+import model.ClassSession;
+import model.Gene;
+import model.Individual;
+import model.Subject;
+import service.InitPopulationService;
 
 public class TimeTable extends JPanel {
     private static final Color HEADER_COLOR = new Color(46, 184, 92);
@@ -13,12 +33,36 @@ public class TimeTable extends JPanel {
     
     private JTable table;
     private DefaultTableModel model;
+    private JLabel titleLabel; // Tiêu đề bảng (JLabel)
+    private JLabel fitnessLabel; // Dòng fitness mới thêm
     private Map<String, String> scheduleMap; // Key: "day-period", Value: Thông tin môn học
+    
+    // Thêm logic cho Individual và duyệt Gene
+    private Individual individual; // Cá thể hiện tại
+    private List<Gene> genes; // Danh sách Gene trong Individual
+    private int currentGeneIndex = -1; // Index Gene hiện tại
+    private InitPopulationService initService;
     
     public TimeTable() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
         scheduleMap = new HashMap<>();
+        
+        // Khởi tạo service và tạo Individual
+        initService = new InitPopulationService();
+        individual = initService.createIndividual(); // Tạo cá thể mới
+        genes = individual.getGenes(); // Lấy list Gene
+        
+        // Tính fitness cho Individual (sử dụng ScheduleController)
+        ScheduleController controller = new ScheduleController();
+        double fitness = controller.fitness(individual);
+        individual.setFitness(fitness); // Set để lưu nếu cần
+        
+        // Tạo JLabel cho tiêu đề bảng
+        titleLabel = new JLabel("Lịch Dạy Của: ", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setForeground(Color.BLACK);
+        add(titleLabel, BorderLayout.NORTH); // Đặt ở trên cùng
         
         // Tạo table model với 4 Ca
         String[] columnNames = {"", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"};
@@ -52,119 +96,88 @@ public class TimeTable extends JPanel {
         header.setFont(new Font("Arial", Font.BOLD, 16));
         header.setPreferredSize(new Dimension(header.getWidth(), 50));
         
-        // Tùy chỉnh renderer cho header
-        DefaultTableCellRenderer headerRenderer = new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                    boolean isSelected, boolean hasFocus, int row, int column) {
-                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setBackground(HEADER_COLOR);
-                c.setForeground(Color.BLACK);
-                setFont(new Font("Arial", Font.BOLD, 16));
-                setHorizontalAlignment(SwingConstants.CENTER);
-                setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 1));
-                return c;
-            }
-        };
+        add(new JScrollPane(table), BorderLayout.CENTER);
         
-        for (int i = 0; i < table.getColumnCount(); i++) {
-            table.getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
-        }
+        // Panel cho SOUTH: Sử dụng BorderLayout để chia trái-phải
+        JPanel southPanel = new JPanel(new BorderLayout());
         
-        // Tùy chỉnh renderer cho các ô
-        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value,
-                    boolean isSelected, boolean hasFocus, int row, int column) {
-                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                
-                // Cột đầu tiên (Ca)
-                if (column == 0) {
-                    c.setBackground(HEADER_COLOR);
-                    c.setForeground(Color.BLACK);
-                    ((JLabel) c).setFont(new Font("Arial", Font.BOLD, 16));
-                    ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
-                } else {
-                    c.setBackground(CELL_COLOR);
-                    c.setForeground(Color.BLACK);
-                    ((JLabel) c).setFont(new Font("Arial", Font.PLAIN, 11));
-                    ((JLabel) c).setHorizontalAlignment(SwingConstants.LEFT);
-                    ((JLabel) c).setVerticalAlignment(SwingConstants.TOP);
-                }
-                
-                setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 1));
-                return c;
+        // JLabel cho fitness (bên trái)
+        fitnessLabel = new JLabel("Fitness : " + fitness);
+        fitnessLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        fitnessLabel.setForeground(Color.BLUE); // Màu để nổi bật, có thể thay đổi
+        southPanel.add(fitnessLabel, BorderLayout.WEST);
+        
+        // Panel cho nút Next/Back (bên phải)
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton btnBack = new JButton("Back");
+        JButton btnNext = new JButton("Next");
+        
+        // Action cho Next: Chuyển sang Gene tiếp theo trong Individual
+        btnNext.addActionListener(e -> {
+            if (currentGeneIndex < genes.size() - 1) {
+                currentGeneIndex++;
+                Gene currentGene = genes.get(currentGeneIndex);
+                loadGene(currentGene); // Load lịch Gene vào table
+                updateHeader("Lịch Dạy Của: " + currentGene.getLecturer().getName());
+                // Fitness không thay đổi vì là của Individual, nhưng nếu cần update, có thể set lại text ở đây
+            } else {
+                JOptionPane.showMessageDialog(this, "Đã hết lịch giảng viên trong cá thể này!");
             }
         });
         
-        // Đặt độ rộng cột
-        table.getColumnModel().getColumn(0).setPreferredWidth(120);
-        for (int i = 1; i < columnNames.length; i++) {
-            table.getColumnModel().getColumn(i).setPreferredWidth(180);
-        }
+        // Action cho Back: Quay lại Gene trước
+        btnBack.addActionListener(e -> {
+            if (currentGeneIndex > 0) {
+                currentGeneIndex--;
+                Gene currentGene = genes.get(currentGeneIndex);
+                loadGene(currentGene); // Load lịch Gene vào table
+                updateHeader("Lịch Dạy Của: " + currentGene.getLecturer().getName());
+                // Fitness không thay đổi
+            } else {
+                JOptionPane.showMessageDialog(this, "Không còn lịch trước đó!");
+            }
+        });
         
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 1));
-        add(scrollPane, BorderLayout.CENTER);
-    }
-    
-    /**
-     * Load dữ liệu từ Chromosome (thời khóa biểu) vào bảng
-     * @param chromosome Thời khóa biểu cần hiển thị
-     */
-//    public void loadSchedule(Chromosome chromosome) {
-//        // Clear dữ liệu cũ
-//        clearSchedule();
-//        
-//        if (chromosome == null || chromosome.getGenes() == null) {
-//            return;
-//        }
-//        
-//        // Duyệt qua từng Gene và thêm vào bảng
-//        for (Gene gene : chromosome.getGenes()) {
-////            Subject subject = gene.getSubject();
-////            TimeSlot theorySlot = gene.getTheoryTimeSlot();
-////            TimeSlot practiceSlot = gene.getPracticeTimeSlot();
-////            
-////            // Thêm lịch lý thuyết
-////            if (theorySlot != null) {
-////                addToSchedule(theorySlot, subject, true);
-////            }
-////            
-////            // Thêm lịch thực hành
-////            if (practiceSlot != null) {
-////                addToSchedule(practiceSlot, subject, false);
-////            }
-//        }
-//    }
-    
-    /**
-     * Thêm môn học vào ô tương ứng trong bảng
-     */
-    private void addToSchedule(TimeSlot timeSlot, Subject subject, boolean isTheory) {
-        int row = timeSlot.getPeriod() - 1; // Ca 1-4 -> row 0-3
-        int col = timeSlot.getDay() - 1; // Thứ 2-7 -> col 1-6
+        buttonPanel.add(btnBack);
+        buttonPanel.add(btnNext);
+        southPanel.add(buttonPanel, BorderLayout.EAST);
         
-        String type = isTheory ? "LT" : "TH";
-        String info = String.format("<html>%s (%d)<br/>Nhóm: %02d<br/>Loại: %s</html>", 
-                                    subject.getName(), 
-                                    subject.getId(), 
-                                    1, // Có thể thêm nhóm sau
-                                    type);
+        add(southPanel, BorderLayout.SOUTH);
         
-        // Lấy nội dung hiện tại của ô
-        String currentContent = (String) model.getValueAt(row, col);
-        if (currentContent == null || currentContent.trim().isEmpty()) {
-            model.setValueAt(info, row, col);
-        } else {
-            // Nếu ô đã có môn khác, thêm vào dưới
-            model.setValueAt(currentContent + "<br/><br/>" + info, row, col);
+        // Load Gene đầu tiên để test
+        if (!genes.isEmpty()) {
+            currentGeneIndex = 0;
+            Gene firstGene = genes.get(currentGeneIndex);
+            loadGene(firstGene);
+            updateHeader("Lịch Dạy Của: " + firstGene.getLecturer().getName());
         }
     }
     
-    /**
-     * Xóa toàn bộ lịch hiện tại
-     */
+    // Load dữ liệu từ Gene vào table (adapt từ code cũ)
+    public void loadGene(Gene gene) {
+        clearSchedule(); // Xóa table cũ
+        
+        for (ClassSession cs : gene.getClassSessions()) {
+            int row = cs.getTimeSlot().getPeriod() - 1; // Ca 1-4 -> row 0-3
+            int col = cs.getTimeSlot().getDay() - 1; // Thứ 2-7 -> col 1-6
+            
+            Subject subject = cs.getSubject();
+            String info = String.format("<html>%s (%s)<br/>Phòng: %s</html>", 
+                                        subject.getName(), 
+                                        subject.getId(), 
+                                        cs.getRoom().getName());
+            
+            // Thêm vào cell (nếu đã có, append)
+            String current = (String) model.getValueAt(row, col);
+            if (current == null || current.trim().isEmpty()) {
+                model.setValueAt(info, row, col);
+            } else {
+                model.setValueAt(current + "<br/><br/>" + info, row, col);
+            }
+        }
+    }
+    
+    // Xóa toàn bộ lịch hiện tại
     public void clearSchedule() {
         for (int row = 0; row < 4; row++) {
             for (int col = 1; col <= 6; col++) {
@@ -174,10 +187,18 @@ public class TimeTable extends JPanel {
         scheduleMap.clear();
     }
     
-    /**
-     * Lấy table để có thể tùy chỉnh thêm
-     */
+    // Cập nhật tiêu đề bảng
+    public void updateHeader(String title) {
+        titleLabel.setText(title);
+    }
+    
+    // Lấy table để có thể tùy chỉnh thêm
     public JTable getTable() {
         return table;
+    }
+    
+    // Lấy Individual hiện tại (nếu cần cho debug)
+    public Individual getIndividual() {
+        return individual;
     }
 }
