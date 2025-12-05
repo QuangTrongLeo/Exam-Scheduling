@@ -3,7 +3,10 @@ package main;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import controller.ScheduleController;
+import model.Individual;
 import print.SchedulePrint;
+import service.InitPopulationService;
 import view.TimeTable;
 
 public class Main {
@@ -20,9 +23,19 @@ public class Main {
             frame.add(timeTable);
             frame.setVisible(true);
             
-            // Sử dụng SchedulePrint để in Individual ra console
-            SchedulePrint print = new SchedulePrint();
-            print.printIndividual(timeTable.getIndividual());
+            ScheduleController controller = new ScheduleController();
+        	SchedulePrint printer = new SchedulePrint();
+        	
+        	// Tạo 1 cá thể để test
+            Individual individual = new InitPopulationService().createIndividual();
+        	
+        	
+        	double fitness = controller.fitness(individual);        
+        	
+        	individual.setFitness(fitness);
+        	
+            printer.printIndividual(individual);
+            System.out.println("Fitness : " + fitness);
         });
     }
 }

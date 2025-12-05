@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import controller.ScheduleController;
 import model.ClassSession;
 import model.Gene;
 import model.Individual;
@@ -33,6 +34,7 @@ public class TimeTable extends JPanel {
     private JTable table;
     private DefaultTableModel model;
     private JLabel titleLabel; // Tiêu đề bảng (JLabel)
+    private JLabel fitnessLabel; // Dòng fitness mới thêm
     private Map<String, String> scheduleMap; // Key: "day-period", Value: Thông tin môn học
     
     // Thêm logic cho Individual và duyệt Gene
@@ -50,6 +52,11 @@ public class TimeTable extends JPanel {
         initService = new InitPopulationService();
         individual = initService.createIndividual(); // Tạo cá thể mới
         genes = individual.getGenes(); // Lấy list Gene
+        
+        // Tính fitness cho Individual (sử dụng ScheduleController)
+        ScheduleController controller = new ScheduleController();
+        double fitness = controller.fitness(individual);
+        individual.setFitness(fitness); // Set để lưu nếu cần
         
         // Tạo JLabel cho tiêu đề bảng
         titleLabel = new JLabel("Lịch Dạy Của: ", SwingConstants.CENTER);
@@ -91,7 +98,16 @@ public class TimeTable extends JPanel {
         
         add(new JScrollPane(table), BorderLayout.CENTER);
         
-        // Panel cho nút Next/Back ở dưới phải
+        // Panel cho SOUTH: Sử dụng BorderLayout để chia trái-phải
+        JPanel southPanel = new JPanel(new BorderLayout());
+        
+        // JLabel cho fitness (bên trái)
+        fitnessLabel = new JLabel("Fitness : " + fitness);
+        fitnessLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        fitnessLabel.setForeground(Color.BLUE); // Màu để nổi bật, có thể thay đổi
+        southPanel.add(fitnessLabel, BorderLayout.WEST);
+        
+        // Panel cho nút Next/Back (bên phải)
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton btnBack = new JButton("Back");
         JButton btnNext = new JButton("Next");
@@ -103,6 +119,7 @@ public class TimeTable extends JPanel {
                 Gene currentGene = genes.get(currentGeneIndex);
                 loadGene(currentGene); // Load lịch Gene vào table
                 updateHeader("Lịch Dạy Của: " + currentGene.getLecturer().getName());
+                // Fitness không thay đổi vì là của Individual, nhưng nếu cần update, có thể set lại text ở đây
             } else {
                 JOptionPane.showMessageDialog(this, "Đã hết lịch giảng viên trong cá thể này!");
             }
@@ -115,6 +132,7 @@ public class TimeTable extends JPanel {
                 Gene currentGene = genes.get(currentGeneIndex);
                 loadGene(currentGene); // Load lịch Gene vào table
                 updateHeader("Lịch Dạy Của: " + currentGene.getLecturer().getName());
+                // Fitness không thay đổi
             } else {
                 JOptionPane.showMessageDialog(this, "Không còn lịch trước đó!");
             }
@@ -122,7 +140,9 @@ public class TimeTable extends JPanel {
         
         buttonPanel.add(btnBack);
         buttonPanel.add(btnNext);
-        add(buttonPanel, BorderLayout.SOUTH);
+        southPanel.add(buttonPanel, BorderLayout.EAST);
+        
+        add(southPanel, BorderLayout.SOUTH);
         
         // Load Gene đầu tiên để test
         if (!genes.isEmpty()) {

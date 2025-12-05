@@ -26,7 +26,7 @@ public class SchedulePrint {
 
     // ========== INDIVIDUAL ==========
 	public void printIndividual(Individual individual) {
-	    System.out.println("--- Fitness: " + individual.getFitness() + " ---");
+//	    System.out.println("--- Fitness: " + individual.getFitness() + " ---");
 	    for (Gene gene : individual.getGenes()) {
 	        printGene(gene);
 	    }
