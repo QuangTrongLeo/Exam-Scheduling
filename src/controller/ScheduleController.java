@@ -8,7 +8,7 @@ import model.Population;
 import service.CrossoverService;
 import service.FitnessHardConstraintService;
 import service.FitnessSoftConstraintService;
-import service.GeneratedIndividualsPerGenerationService;
+import service.GenerationAggregationService;
 import service.InitPopulationService;
 import service.MutationService;
 
@@ -22,15 +22,15 @@ public class ScheduleController {
 	private final FitnessSoftConstraintService fitnessSoftConstraintService;
 	private final CrossoverService crossoverService;
 	private final MutationService mutationService;
-	private final GeneratedIndividualsPerGenerationService generatedIndividualsPerGenerationService;
+	private final GenerationAggregationService generationAggregationService;
 
     public ScheduleController() {
     	this.initPopulationService = new InitPopulationService();
     	this.fitnessHardConstraintService = new FitnessHardConstraintService();
     	this.fitnessSoftConstraintService = new FitnessSoftConstraintService();
-    	this.crossoverService = new CrossoverService();
+    	this.crossoverService = new CrossoverService();	
     	this.mutationService = new MutationService();
-    	this.generatedIndividualsPerGenerationService = new GeneratedIndividualsPerGenerationService();
+    	this.generationAggregationService = new GenerationAggregationService();
     }
 
     // ===== 1. KHỞI TẠO QUẦN THỂ =====
@@ -58,25 +58,25 @@ public class ScheduleController {
 		}
     	return individuals;
     }
+
+    // ===== 3. LAI TẠO =====
+    public List<Individual> crossover(Individual p1, Individual p2){
+    	return crossoverService.crossover(p1, p2);
+    }
+
+    // ===== 4. ĐỘT BIẾN =====
+    public Individual mutation(Individual individual){
+    	return individual;
+    }
+
+    // ===== 5. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TRONG 1 THẾ HỆ ======
+    public List<Individual> aggregateGeneration(List<Individual> individuals){
+    	return generationAggregationService.aggregateGeneration(individuals);
+    }
     
-    // ===== 3. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TÍCH LŨY =====
+    // ===== 6. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TÍCH LŨY =====
     public List<Individual> getAccumulatedIndividuals() {
         return getPopulation().getIndividuals();
-    }
-
-    // ===== 4. LAI TẠO =====
-    public List<Individual> generateCrossover(List<Individual> individuals) {
-        return crossoverService.offspringCrossoverIndivials(individuals);
-    }
-
-    // ===== 5. ĐỘT BIẾN =====
-    public List<Individual> generateMutation(List<Individual> individuals){
-    	return individuals;
-    }
-
-    // ===== 6. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TRONG 1 THẾ HỆ ======
-    public List<Individual> getGeneratedIndividualsPerGeneration(List<Individual> individuals) {
-        return generatedIndividualsPerGenerationService.getGeneratedIndividualsPerGeneration(individuals);
     }
 
     public Population getPopulation() {

@@ -9,42 +9,6 @@ import model.Gene;
 import model.Individual;
 
 public class CrossoverService {
-
-    private final Random random = new Random();
-
-    public Individual selectParent(List<Individual> individuals) {
-        int randomIndex = random.nextInt(individuals.size());
-        Individual parent = individuals.get(randomIndex);
-        individuals.remove(randomIndex); 
-        return parent;
-    }
-    
-    public List<Individual> offspringCrossoverIndivials(List<Individual> individuals) {
-        List<Individual> remainingParents = new ArrayList<>(individuals);
-        List<Individual> offspring = new ArrayList<>();
-
-        int numPairs = individuals.size() / 2;
-        
-        for (int i = 0; i < numPairs; i++) {
-            // Chọn và loại bỏ P1
-            Individual p1 = selectParent(remainingParents); 
-            // Chọn và loại bỏ P2
-            Individual p2 = selectParent(remainingParents); 
-            
-            // Xử lý trường hợp không đủ cặp (nếu kích thước quần thể là số lẻ)
-            if (p1 == null || p2 == null) {
-                // Thêm cá thể cuối cùng còn sót lại vào offspring (giả sử là cá thể ưu tú - Elitism)
-                if (p1 != null) offspring.add(p1);
-                break;
-            }
-
-            List<Individual> children = crossover(p1, p2);
-            offspring.add(children.get(0));
-            offspring.add(children.get(1));
-        }
-        return offspring;
-    }
-
     public List<Individual> crossover(Individual p1, Individual p2){
         List<Individual> individuals = new ArrayList<>();
         
