@@ -30,7 +30,7 @@ public class ScheduleController {
     	this.fitnessSoftConstraintService = new FitnessSoftConstraintService();
     	this.crossoverService = new CrossoverService();
     	this.mutationService = new MutationService();
-    	this.generatedIndividualsPerGenerationService = new GeneratedIndividualsPerGenerationService();
+    	this.generatedIndividualsPerGenerationService = new GeneratedIndividualsPerGenerationService(crossoverService, mutationService);
     }
 
     // ===== 1. KHỞI TẠO QUẦN THỂ =====
@@ -71,7 +71,7 @@ public class ScheduleController {
 
     // ===== 5. ĐỘT BIẾN =====
     public List<Individual> generateMutation(List<Individual> individuals){
-    	return individuals;
+    	return mutationService.mutation(individuals);
     }
 
     // ===== 6. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TRONG 1 THẾ HỆ ======

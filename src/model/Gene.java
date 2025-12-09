@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Gene {
@@ -14,6 +15,17 @@ public class Gene {
 	public Gene() {
 		super();
 	}
+	
+	public Gene cloneGene() {
+        List<ClassSession> newSessions = new ArrayList<>();
+        // Duyệt qua từng session và clone nó ra bản sao mới
+        if (this.classSessions != null) {
+            for (ClassSession cs : this.classSessions) {
+                newSessions.add(cs.cloneSession());
+            }
+        }
+        return new Gene(this.lecturer, newSessions);
+    }
 
 	public Lecturer getLecturer() {
 		return lecturer;
