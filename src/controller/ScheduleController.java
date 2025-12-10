@@ -15,10 +15,6 @@ import service.MutationService;
 
 
 public class ScheduleController {
-	
-	private Population population;
-	private List<Individual> accumulatedIndividuals = new ArrayList<>();
-	
 	private final InitPopulationService initPopulationService; 
 	private final FitnessHardConstraintService fitnessHardConstraintService;
 	private final FitnessSoftConstraintService fitnessSoftConstraintService;
@@ -37,6 +33,7 @@ public class ScheduleController {
 
     // ===== 1. KHỞI TẠO QUẦN THỂ =====
     public Population initPopulation() {
+    	Population population = new Population();
     	population = initPopulationService.initializePopulation(Config.INIT_POPULATION_SIZE);
     	return population;
     }
@@ -78,7 +75,7 @@ public class ScheduleController {
     
     // ===== 6. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TÍCH LŨY =====
     public List<Individual> accumulateIndividuals() {
-    	accumulatedIndividuals.clear();
+    	List<Individual> accumulatedIndividuals = new ArrayList<>();
         Population population = initPopulation();
         List<Individual> initIndividuals = population.getIndividuals();
         accumulatedIndividuals.addAll(initIndividuals);
@@ -109,15 +106,4 @@ public class ScheduleController {
         System.out.println("----- Cá thể này có fitness: " + theBestIndividual.getFitness() + " -----");
         return theBestIndividual;
     }
-
-    public Population getPopulation() {
-        if (population == null) {
-            population = initPopulation();
-        }
-        return population;
-    }
-
-	public void setPopulation(Population population) {
-		this.population = population;
-	}
 }
