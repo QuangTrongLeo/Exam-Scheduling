@@ -27,15 +27,11 @@ public class Main {
         	SchedulePrint printer = new SchedulePrint();
         	
         	// Tạo 1 cá thể để test
-            Individual individual = new InitPopulationService().createIndividual();
-        	
-        	
-        	double fitness = controller.fitness(individual);        
-        	
-        	individual.setFitness(fitness);
+            Individual individual = controller.theBestIndividual();
+          
         	
             printer.printIndividual(individual);
-            System.out.println("Fitness : " + fitness);
+            
         });
     }
 }
