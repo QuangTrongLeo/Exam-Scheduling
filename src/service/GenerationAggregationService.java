@@ -9,9 +9,11 @@ import model.Individual;
 public class GenerationAggregationService {
 	private final Random random = new Random();
 	private final CrossoverService crossoverService;
+	private final MutationService mutationService;
 	
 	public GenerationAggregationService() {
 		this.crossoverService = new CrossoverService();
+		this.mutationService = new MutationService();
 	}
 	
 	public List<Individual> aggregateGeneration(List<Individual> individuals){
@@ -52,6 +54,18 @@ public class GenerationAggregationService {
     // Danh sách cá thể khi đột biến
     public List<Individual> offspringMutationIndivials(List<Individual> individuals) {
     	List<Individual> offspring = new ArrayList<>();
+    	
+    	for (Individual ind : individuals) {
+    		// Kiểm tra tỷ lệ đột biến (Ví dụ: 0.1 tương ứng 10%)
+    		if (random.nextDouble() < MutationService.MUTATION_RATE) {
+    			// Gọi hàm mutate: Hàm này đã bao gồm việc Clone cá thể bên trong Service
+    			Individual mutatedInd = mutationService.mutate(ind);
+    			
+    			if (mutatedInd != null) {
+    				offspring.add(mutatedInd);
+    			}
+    		}
+    	}
     	return offspring;
     }
 

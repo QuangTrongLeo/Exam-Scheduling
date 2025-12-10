@@ -29,7 +29,6 @@ public class Main {
         	// Tạo 1 cá thể để test
             Individual individual = controller.theBestIndividual();
           
-        	
             printer.printIndividual(individual);
             
         });
