@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import config.Config;
@@ -8,33 +9,31 @@ import model.Population;
 import service.CrossoverService;
 import service.FitnessHardConstraintService;
 import service.FitnessSoftConstraintService;
-import service.GeneratedIndividualsPerGenerationService;
+import service.GenerationAggregationService;
 import service.InitPopulationService;
 import service.MutationService;
 
 
 public class ScheduleController {
-	
-	private Population population;
-	
 	private final InitPopulationService initPopulationService; 
 	private final FitnessHardConstraintService fitnessHardConstraintService;
 	private final FitnessSoftConstraintService fitnessSoftConstraintService;
 	private final CrossoverService crossoverService;
 	private final MutationService mutationService;
-	private final GeneratedIndividualsPerGenerationService generatedIndividualsPerGenerationService;
+	private final GenerationAggregationService generationAggregationService;
 
     public ScheduleController() {
     	this.initPopulationService = new InitPopulationService();
     	this.fitnessHardConstraintService = new FitnessHardConstraintService();
     	this.fitnessSoftConstraintService = new FitnessSoftConstraintService();
-    	this.crossoverService = new CrossoverService();
+    	this.crossoverService = new CrossoverService();	
     	this.mutationService = new MutationService();
-    	this.generatedIndividualsPerGenerationService = new GeneratedIndividualsPerGenerationService(crossoverService, mutationService);
+    	this.generationAggregationService = new GenerationAggregationService();
     }
 
     // ===== 1. KHỞI TẠO QUẦN THỂ =====
     public Population initPopulation() {
+    	Population population = new Population();
     	population = initPopulationService.initializePopulation(Config.INIT_POPULATION_SIZE);
     	return population;
     }
@@ -58,35 +57,53 @@ public class ScheduleController {
 		}
     	return individuals;
     }
+
+    // ===== 3. LAI TẠO =====
+    public List<Individual> crossover(Individual p1, Individual p2){
+    	return crossoverService.crossover(p1, p2);
+    }
+
+    // ===== 4. ĐỘT BIẾN =====
+    public Individual mutation(Individual individual){
+    	return individual;
+    }
+
+    // ===== 5. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TRONG 1 THẾ HỆ ======
+    public List<Individual> aggregateGeneration(List<Individual> individuals){
+    	return generationAggregationService.aggregateGeneration(individuals);
+    }
     
-    // ===== 3. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TÍCH LŨY =====
-    public List<Individual> getAccumulatedIndividuals() {
-        return getPopulation().getIndividuals();
-    }
+    // ===== 6. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TÍCH LŨY =====
+    public List<Individual> accumulateIndividuals() {
+    	List<Individual> accumulatedIndividuals = new ArrayList<>();
+        Population population = initPopulation();
+        List<Individual> initIndividuals = population.getIndividuals();
+        accumulatedIndividuals.addAll(initIndividuals);
 
-    // ===== 4. LAI TẠO =====
-    public List<Individual> generateCrossover(List<Individual> individuals) {
-        return crossoverService.offspringCrossoverIndivials(individuals);
-    }
-
-    // ===== 5. ĐỘT BIẾN =====
-    public List<Individual> generateMutation(List<Individual> individuals){
-    	return mutationService.mutation(individuals);
-    }
-
-    // ===== 6. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TRONG 1 THẾ HỆ ======
-    public List<Individual> getGeneratedIndividualsPerGeneration(List<Individual> individuals) {
-        return generatedIndividualsPerGenerationService.getGeneratedIndividualsPerGeneration(individuals);
-    }
-
-    public Population getPopulation() {
-        if (population == null) {
-            population = initPopulation();
+        for (int generation = 1; generation <= Config.GENERATION_COUNT; generation++) {
+            List<Individual> nextGenerationIndividual = aggregateGeneration(accumulatedIndividuals);
+            accumulatedIndividuals.addAll(nextGenerationIndividual);
         }
-        return population;
-    }
 
-	public void setPopulation(Population population) {
-		this.population = population;
-	}
+        return fitnessIndividuals(accumulatedIndividuals);
+    }
+    
+    // ===== 7. CÁ THỂ TỐT NHẤT =====
+    public Individual theBestIndividual() {
+        List<Individual> individuals = accumulateIndividuals();
+        Individual theBestIndividual = individuals.get(0);
+        int bestIndex = 0;
+
+        for (int i = 1; i < individuals.size(); i++) {
+            Individual currentIndividual = individuals.get(i);
+            if (currentIndividual.getFitness() > theBestIndividual.getFitness()) {
+            	theBestIndividual = currentIndividual;
+                bestIndex = i;
+            }
+        }
+
+        System.out.println("----- Cá thể " + bestIndex + " là cá thể tốt nhất -----");
+        System.out.println("----- Cá thể này có fitness: " + theBestIndividual.getFitness() + " -----");
+        return theBestIndividual;
+    }
 }
