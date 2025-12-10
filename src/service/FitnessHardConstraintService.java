@@ -15,6 +15,7 @@ import model.TimeSlot;
 public class FitnessHardConstraintService {
 	public boolean checkHardConstraint(Individual individual) {
 		return hasConflictInGene(individual) || hasConflictBetweenGenes(individual);
+//		return hasConflictInGene(individual);
 	}
 	
 	private boolean hasConflictInGene(Individual individual) {

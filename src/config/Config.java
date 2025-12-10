@@ -5,4 +5,5 @@ public class Config {
 	public static final int FITNESS_INVALID_SCORE  = -1000000;
 	public static final double CROSSOVER_40_PERCENT = 0.4;
 	public static final double CROSSOVER_60_PERCENT = 0.6;
+	public static final int GENERATION_COUNT = 5;
 }

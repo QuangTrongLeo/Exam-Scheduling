@@ -4,15 +4,13 @@ import java.util.List;
 
 import controller.ScheduleController;
 import model.Individual;
-import model.Population;
 import print.SchedulePrint;
 
-public class FitnessIndividualsMain {
+public class AccumulateIndividualsMain {
 	public static void main(String[] args) {
 		ScheduleController controller = new ScheduleController();
 		SchedulePrint print = new SchedulePrint();
-		Population population = controller.initPopulation();
-		List<Individual> individuals = controller.fitnessIndividuals(population.getIndividuals());
+		List<Individual> individuals = controller.accumulateIndividuals();
 		print.printFitnessIndividuals(individuals);
 	}
 }

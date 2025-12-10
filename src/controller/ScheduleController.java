@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import config.Config;
@@ -16,6 +17,7 @@ import service.MutationService;
 public class ScheduleController {
 	
 	private Population population;
+	private List<Individual> accumulatedIndividuals = new ArrayList<>();
 	
 	private final InitPopulationService initPopulationService; 
 	private final FitnessHardConstraintService fitnessHardConstraintService;
@@ -75,8 +77,37 @@ public class ScheduleController {
     }
     
     // ===== 6. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TÍCH LŨY =====
-    public List<Individual> getAccumulatedIndividuals() {
-        return getPopulation().getIndividuals();
+    public List<Individual> accumulateIndividuals() {
+    	accumulatedIndividuals.clear();
+        Population population = initPopulation();
+        List<Individual> initIndividuals = population.getIndividuals();
+        accumulatedIndividuals.addAll(initIndividuals);
+
+        for (int generation = 1; generation <= Config.GENERATION_COUNT; generation++) {
+            List<Individual> nextGenerationIndividual = aggregateGeneration(accumulatedIndividuals);
+            accumulatedIndividuals.addAll(nextGenerationIndividual);
+        }
+
+        return fitnessIndividuals(accumulatedIndividuals);
+    }
+    
+    // ===== 7. CÁ THỂ TỐT NHẤT =====
+    public Individual theBestIndividual() {
+        List<Individual> individuals = accumulateIndividuals();
+        Individual theBestIndividual = individuals.get(0);
+        int bestIndex = 0;
+
+        for (int i = 1; i < individuals.size(); i++) {
+            Individual currentIndividual = individuals.get(i);
+            if (currentIndividual.getFitness() > theBestIndividual.getFitness()) {
+            	theBestIndividual = currentIndividual;
+                bestIndex = i;
+            }
+        }
+
+        System.out.println("----- Cá thể " + bestIndex + " là cá thể tốt nhất -----");
+        System.out.println("----- Cá thể này có fitness: " + theBestIndividual.getFitness() + " -----");
+        return theBestIndividual;
     }
 
     public Population getPopulation() {
