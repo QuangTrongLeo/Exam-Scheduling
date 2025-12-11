@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import config.Config;
 import model.Individual;
 
 public class GenerationAggregationService {
@@ -53,10 +54,10 @@ public class GenerationAggregationService {
     public List<Individual> offspringMutationIndivials(List<Individual> individuals) {
         List<Individual> offspring = new ArrayList<>();
         
-        // Tính toán số lượng cụ thể cần đột biến (ví dụ: 100 * 0.1 = 10)
-        int numberOfMutations = (int) (individuals.size() * MutationService.MUTATION_RATE);
+        // Tính toán số lượng cụ thể cần đột biến
+        int numberOfMutations = (int) (individuals.size() * Config.MUTATION_RATE);
         
-        // Tạo danh sách index để không chọn trùng (nếu cần) hoặc cứ random thoải mái
+        // Tạo danh sách index để không chọn trùng 
         for (int i = 0; i < numberOfMutations; i++) {
             // Chọn ngẫu nhiên 1 index trong danh sách
             int randomIndex = random.nextInt(individuals.size());

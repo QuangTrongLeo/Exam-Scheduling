@@ -6,4 +6,5 @@ public class Config {
 	public static final double CROSSOVER_40_PERCENT = 0.4;
 	public static final double CROSSOVER_60_PERCENT = 0.6;
 	public static final int GENERATION_COUNT = 5;
+	public static final double MUTATION_RATE = 0.2;
 }
