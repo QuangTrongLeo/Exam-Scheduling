@@ -9,9 +9,11 @@ import model.Individual;
 public class GenerationAggregationService {
 	private final Random random = new Random();
 	private final CrossoverService crossoverService;
+	private final MutationService mutationService;
 	
 	public GenerationAggregationService() {
 		this.crossoverService = new CrossoverService();
+		this.mutationService = new MutationService();
 	}
 	
 	public List<Individual> aggregateGeneration(List<Individual> individuals){
@@ -49,8 +51,25 @@ public class GenerationAggregationService {
     
     // Danh sách cá thể khi đột biến
     public List<Individual> offspringMutationIndivials(List<Individual> individuals) {
-    	List<Individual> offspring = new ArrayList<>();
-    	return offspring;
+        List<Individual> offspring = new ArrayList<>();
+        
+        // Tính toán số lượng cụ thể cần đột biến (ví dụ: 100 * 0.1 = 10)
+        int numberOfMutations = (int) (individuals.size() * MutationService.MUTATION_RATE);
+        
+        // Tạo danh sách index để không chọn trùng (nếu cần) hoặc cứ random thoải mái
+        for (int i = 0; i < numberOfMutations; i++) {
+            // Chọn ngẫu nhiên 1 index trong danh sách
+            int randomIndex = random.nextInt(individuals.size());
+            Individual original = individuals.get(randomIndex);
+            
+            // Mutate
+            Individual mutatedInd = mutationService.mutate(original);
+            if (mutatedInd != null) {
+                offspring.add(mutatedInd);
+            }
+        }
+        
+        return offspring;
     }
 
     private Individual selectParent(List<Individual> individuals) {

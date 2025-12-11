@@ -21,21 +21,7 @@ public class Main {
             // Tạo TimeTable (bây giờ tự xử lý logic bên trong)
             TimeTable timeTable = new TimeTable();
             frame.add(timeTable);
-            frame.setVisible(true);
-            
-            ScheduleController controller = new ScheduleController();
-        	SchedulePrint printer = new SchedulePrint();
-        	
-        	// Tạo 1 cá thể để test
-            Individual individual = new InitPopulationService().createIndividual();
-        	
-        	
-        	double fitness = controller.fitness(individual);        
-        	
-        	individual.setFitness(fitness);
-        	
-            printer.printIndividual(individual);
-            System.out.println("Fitness : " + fitness);
+            frame.setVisible(true);         
         });
     }
 }

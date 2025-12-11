@@ -16,7 +16,7 @@ public class Individual {
 	    List<Gene> clonedGenes = new ArrayList<>();
 	    if (this.genes != null) {
 	        for (Gene g : this.genes) {
-	            clonedGenes.add(g);
+	            clonedGenes.add(g.cloneGene());
 	        }
 	    }
 	    return new Individual(clonedGenes, this.fitness);

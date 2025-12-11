@@ -17,6 +17,10 @@ public class ClassSession {
 	public ClassSession() {
 		super();
 	}
+	
+	public ClassSession cloneSession() {
+        return new ClassSession(this.subject, this.lecturer, this.room, this.timeSlot);
+    }
 
 	public Subject getSubject() {
 		return subject;
