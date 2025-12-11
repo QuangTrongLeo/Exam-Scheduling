@@ -24,6 +24,7 @@ import model.ClassSession;
 import model.Gene;
 import model.Individual;
 import model.Subject;
+import print.SchedulePrint;
 import service.InitPopulationService;
 
 public class TimeTable extends JPanel {
@@ -55,8 +56,10 @@ public class TimeTable extends JPanel {
         
         // Tính fitness cho Individual (sử dụng ScheduleController)
         ScheduleController controller = new ScheduleController();
-        double fitness = controller.fitness(individual);
-        individual.setFitness(fitness); // Set để lưu nếu cần
+        SchedulePrint print = new SchedulePrint();
+        Individual individual = controller.theBestIndividual();
+        print.printIndividual(individual);
+        double fitness = individual.getFitness();
         
         // Tạo JLabel cho tiêu đề bảng
         titleLabel = new JLabel("Lịch Dạy Của: ", SwingConstants.CENTER);
