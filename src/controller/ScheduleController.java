@@ -65,7 +65,7 @@ public class ScheduleController {
 
     // ===== 4. ĐỘT BIẾN =====
     public Individual mutation(Individual individual){
-    	return mutationService.mutate(individual);
+    	return individual;
     }
 
     // ===== 5. DANH SÁCH TỔNG SỐ LƯỢNG CÁ THỂ TRONG 1 THẾ HỆ ======
