@@ -34,17 +34,15 @@ public class GenerationAggregationService {
             Individual p1 = selectParent(remainingParents); 
             // Chọn và loại bỏ P2
             Individual p2 = selectParent(remainingParents); 
-            
-            // Xử lý trường hợp không đủ cặp (nếu kích thước quần thể là số lẻ)
-            if (p1 == null || p2 == null) {
-                // Thêm cá thể cuối cùng còn sót lại vào offspring
-                if (p1 != null) offspring.add(p1);
-                break;
-            }
 
             List<Individual> children = crossoverService.crossover(p1, p2);
             offspring.add(children.get(0));
             offspring.add(children.get(1));
+        }
+        
+        // Trường hợp nếu không đủ cặp
+        if (!remainingParents.isEmpty()) {
+            offspring.add(remainingParents.get(0));
         }
         return offspring;
     }
