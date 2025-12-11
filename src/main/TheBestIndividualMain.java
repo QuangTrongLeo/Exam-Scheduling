@@ -4,7 +4,7 @@ import controller.ScheduleController;
 import model.Individual;
 import print.SchedulePrint;
 
-public class TheBestIndividual {
+public class TheBestIndividualMain {
 	public static void main(String[] args) {
 		ScheduleController controller = new ScheduleController();
 		SchedulePrint print = new SchedulePrint();
