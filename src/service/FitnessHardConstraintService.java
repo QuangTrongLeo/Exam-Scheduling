@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,11 +15,10 @@ import model.TimeSlot;
 
 public class FitnessHardConstraintService {
 	public boolean checkHardConstraint(Individual individual) {
-		return hasConflictInGene(individual) || hasConflictBetweenGenes(individual);
-//		return hasConflictInGene(individual);
+		return hasTimeSlotConflictInGen(individual) || hasRoomConflictBetweenGens(individual) || hasCoreTimeSlotConflictBetweenGens(individual);
 	}
 	
-	private boolean hasConflictInGene(Individual individual) {
+	private boolean hasTimeSlotConflictInGen(Individual individual) {
         List<Gene> genes = individual.getGenes();
 
         for (Gene gene : genes) {
@@ -35,7 +35,7 @@ public class FitnessHardConstraintService {
         return false;
     }
 
-    private boolean hasConflictBetweenGenes(Individual individual) {
+    private boolean hasRoomConflictBetweenGens(Individual individual) {
         Map<Room, Set<TimeSlot>> roomSchedule = new HashMap<>();
 
         for (Gene gene : individual.getGenes()) {
@@ -52,6 +52,27 @@ public class FitnessHardConstraintService {
             }
         }
 
+        return false;
+    }
+    
+    private boolean hasCoreTimeSlotConflictBetweenGens(Individual individual) {
+        List<ClassSession> coreSessions = new ArrayList<>();
+        for (Gene gene : individual.getGenes()) {
+            for (ClassSession session : gene.getClassSessions()) {
+                if (session.getSubject().isCore()) {
+                    coreSessions.add(session);
+                }
+            }
+        }
+        for (int i = 0; i < coreSessions.size(); i++) {
+            for (int j = i + 1; j < coreSessions.size(); j++) {
+                ClassSession cs1 = coreSessions.get(i);
+                ClassSession cs2 = coreSessions.get(j);
+                if (cs1.getTimeSlot().equals(cs2.getTimeSlot())) {
+                    return true; 
+                }
+            }
+        }
         return false;
     }
 
