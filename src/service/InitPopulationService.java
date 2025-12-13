@@ -32,7 +32,7 @@ public class InitPopulationService {
     }
 
     // Khởi tạo Population
-    public Population initializePopulation(int size) {
+    public Population initPopulation(int size) {
         List<Individual> individuals = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             individuals.add(createIndividual());
